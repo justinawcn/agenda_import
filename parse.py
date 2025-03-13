@@ -48,10 +48,10 @@ class parse_xls:
         self.sheet = self.book.sheet_by_index(0)
         self.table = None
 
-        self.parse()
+        self.importToDb()
 
 
-    def parse(self):
+    def importToDb(self):
         self.table = db_table(self.TABLE_NAME, self.SCHEMA)
         id = 0
         for rowidx in range(15, self.sheet.nrows):
@@ -66,6 +66,8 @@ class parse_xls:
             elif item[3] == "Sub":
                 item.append(id)
                 self.table.insert(self.SUBSESSION_QUERY, item)
+            else:
+                raise RuntimeError("invalid data for session/sub-session type.")
             
 
 
